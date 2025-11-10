@@ -1,17 +1,14 @@
 import { Controller, Post, Body, Get } from '@nestjs/common';
 import { VoteService } from './vote.service';
-
+import { CreateVoteDto } from './dto/create-vote.dto';
 @Controller('votes')
 export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
   @Post()
-  vote(
-    @Body('accessCode') accessCode: string,
-    @Body('participantId') participantId: string,
-    @Body('score') score: number,
-  ) {
-    return this.voteService.createVote(accessCode, participantId, score);
+  vote(@Body() createVoteDto: CreateVoteDto) {
+    console.log('Request body:', createVoteDto);
+    return this.voteService.createVote(createVoteDto);
   }
 
   @Get('averages')

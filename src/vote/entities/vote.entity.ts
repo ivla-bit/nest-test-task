@@ -7,17 +7,22 @@ import {
 } from 'typeorm';
 import { Judge } from 'src/judge/entities/judge.entity';
 import { Participant } from 'src/participant/entities/participant.entity';
+
 @Entity()
 @Unique(['judge', 'participant', 'round'])
 export class Vote {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Judge, (judge) => judge.votes, { eager: true })
+  @ManyToOne(() => Judge, (judge) => judge.votes, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
   judge: Judge;
 
   @ManyToOne(() => Participant, (participant) => participant.votes, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   participant: Participant;
 

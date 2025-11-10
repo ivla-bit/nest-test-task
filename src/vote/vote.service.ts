@@ -4,6 +4,7 @@ import { Vote } from './entities/vote.entity';
 import { Repository } from 'typeorm';
 import { Judge } from 'src/judge/entities/judge.entity';
 import { Participant } from 'src/participant/entities/participant.entity';
+import { CreateVoteDto } from './dto/create-vote.dto';
 @Injectable()
 export class VoteService {
   constructor(
@@ -13,7 +14,9 @@ export class VoteService {
     private participantRepository: Repository<Participant>,
   ) {}
 
-  async createVote(accessCode: string, participantId: string, score: number) {
+  async createVote(createVoteDto: CreateVoteDto) {
+    const { accessCode, participantId, score } = createVoteDto;
+
     const judge = await this.judgeRepository.findOne({ where: { accessCode } });
     if (!judge) throw new BadRequestException('Invalid access code');
 
